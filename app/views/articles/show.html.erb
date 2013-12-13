@@ -12,10 +12,4 @@
   <% end %>
 </ul>
 
-<form action="<%= article_discussions_url(@article) %>" method="POST">
-  <%= render "layouts/csrf" %>
-  <label>New Discussion
-    <input name="discussion[summary]">
-  </label>
-  <button>Create</button>
-</form>
+<%= render "discussions/new_discussion_form", article_id: @article.id %>

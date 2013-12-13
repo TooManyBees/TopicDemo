@@ -2,6 +2,8 @@ TopicDemo::Application.routes.draw do
   # mount TopicDemo::SocketBackend, at: '/socket'
   # match '/socket', to: TopicDemo::SocketBackend
 
+  root to: "articles#index"
+
   resources :articles, only: [:index, :show] do
     resources :discussions, only: :create
   end
