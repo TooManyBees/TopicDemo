@@ -5,7 +5,13 @@ class CommentsController < ApplicationController
   end
 
   def create
+    discussion = Discussion.find(params[:discussion_id])
+    comment = discussion.comments.build(new_comment_params)
+    if comment.save
 
+    else
+
+    end
   end
 
   def update
@@ -19,6 +25,7 @@ class CommentsController < ApplicationController
 
   private
   def new_comment_params
+    params.require(:comment).permit(:content, :parent_id, :discussion_id)
   end
 
   def update_comment_params
