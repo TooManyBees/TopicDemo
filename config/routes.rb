@@ -1,4 +1,10 @@
 TopicDemo::Application.routes.draw do
+  # mount TopicDemo::SocketBackend, at: '/socket'
+  # match '/socket', to: TopicDemo::SocketBackend
+
+  resources :articles, only: [:index, :show] do
+    member { resources :comments }
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
