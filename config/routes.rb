@@ -2,7 +2,9 @@ TopicDemo::Application.routes.draw do
   # mount TopicDemo::SocketBackend, at: '/socket'
   # match '/socket', to: TopicDemo::SocketBackend
 
-  resources :articles, only: [:index, :show]
+  resources :articles, only: [:index, :show] do
+    resources :discussions, only: :create
+  end
   resources :discussions, only: [:show] do
     resources :comments, only: [:index, :create, :update, :destroy]
   end

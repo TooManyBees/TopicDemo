@@ -4,8 +4,18 @@
   <%= @article.text %>
 </div>
 
+<h2>Ongoing Discussions</h2>
+
 <ul>
   <% @article.discussions.each do |discussion| %>
   <li><%= link_to discussion.summary, discussion %></li>
   <% end %>
 </ul>
+
+<form action="<%= article_discussions_url(@article) %>" method="POST">
+  <%= render "layouts/csrf" %>
+  <label>New Discussion
+    <input name="discussion[summary]">
+  </label>
+  <button>Create</button>
+</form>
