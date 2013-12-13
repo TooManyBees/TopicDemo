@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131213185509) do
+ActiveRecord::Schema.define(version: 20131213235100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,10 +27,9 @@ ActiveRecord::Schema.define(version: 20131213185509) do
     t.integer  "parent_id"
     t.text     "content"
     t.integer  "rating",        default: 0
-    t.boolean  "visible",       default: true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "discussion_id",                null: false
+    t.integer  "discussion_id",             null: false
     t.text     "quote"
   end
 
@@ -38,10 +37,12 @@ ActiveRecord::Schema.define(version: 20131213185509) do
   add_index "comments", ["parent_id"], name: "index_comments_on_parent_id", using: :btree
 
   create_table "discussions", force: true do |t|
-    t.string   "summary",    null: false
-    t.integer  "article_id", null: false
+    t.string   "summary",                                    null: false
+    t.integer  "article_id",                                 null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "branched_from_discussion_id"
+    t.boolean  "visible",                     default: true
   end
 
   add_index "discussions", ["article_id"], name: "index_discussions_on_article_id", using: :btree
