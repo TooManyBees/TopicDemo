@@ -1,0 +1,5 @@
+<form class="new_comment_form" action="<%= api_discussion_comments(discussion.id) %>" method="POST">
+  <%= render "layouts/csrf" %>
+  <textarea name="comment[content]"></textarea>
+  <button type="submit">Submit</button>
+</form>

@@ -3,13 +3,18 @@ TopicDemo::Application.routes.draw do
   # match '/socket', to: TopicDemo::SocketBackend
 
   resources :articles, only: [:index, :show]
-
-  namespace :api do
-    resources :articles, only: [] do
-      resources :comments, only: [:index, :create, :update, :destroy],
-        defaults: {respond_to: :json}
-    end
+  resources :discussions, only: [:show] do
+    resources :comments, only: [:index, :create, :update, :destroy]
   end
+
+  # namespace :api do
+  #   resources :articles, only: [:index, :show]
+
+  #   resources :discussions, only: [:index, :show] do
+  #     resources :comments, only: [:index, :create, :update, :destroy],
+  #       defaults: {respond_to: :json}
+  #   end
+  # end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
