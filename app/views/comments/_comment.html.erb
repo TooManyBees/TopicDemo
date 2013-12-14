@@ -1,5 +1,7 @@
 <li class="comment">
-  <a id="comment_<%= comment.id %>"><%= comment.created_at %></a>
+  <a id="comment_<%= comment.id %>">
+    Posted <strong><%= comment.post_time_in_words %></strong>
+  </a>
   <% if comment.quote %>
     <p class="comment-quote"><%= comment.quote %></p>
   <% end %>

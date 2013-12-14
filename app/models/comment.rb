@@ -21,6 +21,18 @@ class Comment < ActiveRecord::Base
     primary_key: :id
   )
 
+  def post_time_in_words
+    if created_at.today?
+      format = "today at %I:%M %p"
+    elsif created_at.year == Time.now.year
+      format = "%b %-d at %I:%M %p"
+    else
+      format = "%b %-d %Y at %I:%M %p"
+    end
+
+    created_at.strftime(format)
+  end
+
   private
   # These validations/callbacks only get performed when a comment is
   # being added for the first time (there's an unless persisted? above)
