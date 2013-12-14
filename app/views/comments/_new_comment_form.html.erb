@@ -1,5 +1,8 @@
+<%= parent_id ||= nil %>
+
 <form class="new_comment_form" action="<%= api_discussion_comments(discussion.id) %>" method="POST">
   <%= render "layouts/csrf" %>
   <textarea name="comment[content]"></textarea>
+  <input type="hidden" name="comment[parent_id]">
   <button type="submit">Submit</button>
 </form>
