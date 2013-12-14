@@ -46,10 +46,10 @@ class Comment < ActiveRecord::Base
     average_value < (-1 * discussion.article.comment_threshold)
   end
 
-  def form_new_discussion(opt)
+  def form_new_discussion(opt={})
     visible = !opt.fetch(:hide, false)
     article = discussion.article
-    new_discussion = article.discussion.create(
+    new_discussion = article.discussions.create(
       summary: summary_snippet, visible: visible
       )
     children = discussion.find_children_of(self)
