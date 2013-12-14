@@ -22,6 +22,21 @@ class Discussion < ActiveRecord::Base
     new_discussion_from(comment)
   end
 
+  def find_children_of(comment)
+    children = []
+    all_comments = comments_by_parent
+    to_check = [comment]
+
+    until to_check.empty?
+      current = to_check.shift
+
+      children << current
+      to_check += all_comments[current.id]
+    end
+
+    children
+  end
+
   private
   def new_discussion_from(comment)
     new_discussion = Discussion.create(
@@ -42,20 +57,5 @@ class Discussion < ActiveRecord::Base
     end
 
     hashed
-  end
-
-  def find_children_of(comment)
-    children = []
-    all_comments = comments_by_parent
-    to_check = [comment]
-
-    until to_check.empty?
-      current = to_check.shift
-
-      children << current
-      to_check += all_comments[current.id]
-    end
-
-    children
   end
 end
