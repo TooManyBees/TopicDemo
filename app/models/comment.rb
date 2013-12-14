@@ -37,13 +37,23 @@ class Comment < ActiveRecord::Base
     content[0...100] + "..."
   end
 
-  def exceeds_rating_threshold?
-    # Returns false if the average of child_comments score poorly
+  def exceeds_negative_threshold?
+    # Returns false if the average of child_comments rating poorly
     children = discussion.find_children_of(self)
-    total_value = children.reduce(0) { |score, comment| score += comment.score }
+    total_value = children.reduce(0) { |rating, comment| rating += comment.rating }
     average_value = total_value / children.size
 
-    average_value.abs > discussion.article.comment_threshold
+    average_value < (-1 * discussion.article.comment_threshold)
+  end
+
+  def form_new_discussion(opt)
+    visible = !opt.fetch(:hide, false)
+    article = discussion.article
+    new_discussion = article.discussion.create(
+      summary: summary_snippet, visible: visible
+      )
+    children = discussion.find_children_of(self)
+    children.each { |c| c.update_attribute(:discussion_id, new_discussion.id) }
   end
 
   private

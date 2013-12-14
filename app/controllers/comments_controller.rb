@@ -21,7 +21,14 @@ class CommentsController < ApplicationController
   def update
     comment.score += params[:comment][:score] # will be 1 or -1
     comment.save
-    # here check comment value for... banishment
+
+    # Only check for splitting negative comments if the discussion is
+    # visible (i.e. if it was originally banished for being negative,
+    # don't bother checking further)
+    if comment.discussion.visible && comment.exceeds_value_threshold?
+      comment.form_new_discussion(hide: true)
+    end
+
     if request.xhr?
       render json: nil, status: :ok
     else
