@@ -37,6 +37,16 @@ class Comment < ActiveRecord::Base
     content[0...100] + "..."
   end
 
+  def is_valuable?
+    # Returns false if the average of child_comments score poorly
+    children = discussion.find_children_of(self)
+    total_value = children.reduce(0) { |score, comment| score += comment.score }
+    average_value = total_value / children.size
+
+    # this attribute "negative_threshold" doesn't exist yet
+    # average_value < discussion.article.negative_threshold ? false : true
+  end
+
   private
   # These validations/callbacks only get performed when a comment is
   # being added for the first time (there's an unless persisted? above)
