@@ -1,0 +1,7 @@
+<% parentId || (parentId = nil) %>
+
+<form class="new_comment_form">
+  <textarea name="comment[content]" placeholder="New comment..."></textarea><br>
+  <input type="hidden" name="comment[parent_id]" value="<%= parentId %>">
+  <button type="submit">Submit</button>
+</form>
