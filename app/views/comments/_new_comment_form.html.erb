@@ -1,6 +1,6 @@
 <%= parent_id ||= nil %>
 
-<form class="new_comment_form" action="<%= discussion_comments_url(discussion.id) %>" method="POST">
+<form class="new-comment-form" action="<%= discussion_comments_url(discussion.id) %>" method="POST">
   <%= render "layouts/csrf" %>
   <textarea name="comment[content]" placeholder="New comment..."></textarea><br>
   <input type="hidden" name="comment[parent_id]" value="<%= parent_id %>">

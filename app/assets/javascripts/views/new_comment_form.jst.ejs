@@ -2,5 +2,6 @@
 <form class="new-comment-form" data-discussion-id="<%= discussionId %>">
   <textarea name="comment[content]" placeholder="New comment..."></textarea><br>
   <input type="hidden" name="comment[parent_id]" value="<%= parentId %>">
+  <input type="hidden" name="comment[discussion_id]" value="<%= discussionId %>">
   <button type="submit">Submit</button>
 </form>

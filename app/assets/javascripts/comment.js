@@ -3,7 +3,7 @@ $(document).ready(function() {
   var commentFormTemplate = JST['views/new_comment_form'];
   var commentTemplate = JST['views/comment'];
 
-  var discussionId = 1;
+  var discussionId = $('h1').data('id');
 
   // Requests for posting a comment or replying to comments
   $('.comment-list').on("click", ".comment-reply-link", function(event) {
@@ -25,4 +25,27 @@ $(document).ready(function() {
     var commentScore = $(event.target).data("score");
     console.log(commentId + " -> " + commentScore);
   })
+
+  var commentFormHandler = function(event) {
+    event.preventDefault();
+    var data = $(event.target).serializeJSON();
+    console.log(data);
+    // $.ajax({
+    //   url: "/discussions/"+discussionId+"/comments",
+    //   type: "POST",
+    //   dataType: "json",
+    //   data: {},
+    //   // Success should remove form and unhide link
+    //   success: function() {}
+    // })
+  }
+
+  // One handler for the static comment form at the top, another delegated
+  // handler for the ones that get generated
+  $('.new-comment-form').on("submit", function(event) {
+    commentFormHandler(event);
+  });
+  $('.comment-list').on("submit", ".new-comment-form", function(event) {
+    commentFormHandler(event);
+  });
 })
