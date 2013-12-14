@@ -1,6 +1,8 @@
 <h1><%= @discussion.summary %></h1>
 <h2>Pertaining to the article <%= link_to @discussion.article.title, @discussion.article %></h2>
 
+<%= render "comments/new_comment_form", discussion: @discussion %>
+
 <ol class="comment-list">
 <% @comments.each do |comment| %>
   <%= render "comments/comment", comment: comment %>

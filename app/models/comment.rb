@@ -33,6 +33,10 @@ class Comment < ActiveRecord::Base
     created_at.strftime(format)
   end
 
+  def summary_snippet
+    content[0...100] + "..."
+  end
+
   private
   # These validations/callbacks only get performed when a comment is
   # being added for the first time (there's an unless persisted? above)
