@@ -15,7 +15,7 @@ $(document).ready(function() {
     $('.comment-list .comment-reply-link').show();
     $(event.target).hide();
     $('.comment-list .new-comment-form').remove();
-    $li.append(commentFormTemplate({parentId: parentId, discussionId: discussionId}));
+    $li.append(commentFormTemplate({parentId: parentId}));
   })
 
   // Requests for voting up or voting down
@@ -30,14 +30,16 @@ $(document).ready(function() {
     event.preventDefault();
     var data = $(event.target).serializeJSON();
     console.log(data);
-    // $.ajax({
-    //   url: "/discussions/"+discussionId+"/comments",
-    //   type: "POST",
-    //   dataType: "json",
-    //   data: {},
-    //   // Success should remove form and unhide link
-    //   success: function() {}
-    // })
+    $.ajax({
+      url: "/discussions/"+discussionId+"/comments",
+      type: "POST",
+      dataType: "json",
+      data: data,
+      success: function() {
+        $(event.target).remove();
+        $('.comment-reply-link').show();
+      }
+    })
   }
 
   // One handler for the static comment form at the top, another delegated

@@ -1,5 +1,7 @@
 class CommentsController < ApplicationController
 
+  respond_to :json
+
   def index
     @comments = Comment.where(discussion_id: params[:discussion_id])
   end
@@ -8,7 +10,11 @@ class CommentsController < ApplicationController
     discussion = Discussion.find(params[:discussion_id])
     comment = discussion.comments.build(new_comment_params)
     comment.save
-    redirect_to discussion
+    if request.xhr?
+      render json: nil, status: :created
+    else
+      redirect_to discussion
+    end
   end
 
   private
