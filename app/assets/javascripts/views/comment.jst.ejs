@@ -1,0 +1,24 @@
+<li class="comment" data-id="<%= commentId %>">
+  <a id="comment_<%= commentId %>">
+    Posted <strong><%= post_time %></strong>
+  </a>
+
+  <span class="voting">
+    <a href="#"
+      class="comment-vote-link"
+      data-id="<%= commentId %>"
+      data-score="1">Vote Up</a>
+    <a href="#"
+      class="comment-vote-link"
+      data-id="<%= commentId %>"
+      data-score="-1">Vote Down</a>
+  </span>
+
+  <% if (quote != undefined) { %>
+    <p class="comment-quote"><%= quote %></p>
+  <% } %>
+  <div>
+    <%- content %>
+  </div>
+  <a href="#" class="comment-reply-link">Reply</a>
+</li>

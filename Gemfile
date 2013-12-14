@@ -8,6 +8,7 @@ gem 'pg'
 
 gem 'faye-websocket', require: "faye/websocket"
 gem 'puma'
+gem 'ejs'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
