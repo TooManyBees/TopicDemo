@@ -33,18 +33,18 @@
       console.log(commentId + " -> " + commentScore);
     })
 
-    var commentFormHandler = function(event) {
+    var commentFormHandler = function(event, successCallback) {
       event.preventDefault();
       var data = $(event.target).serializeJSON();
-      console.log(data);
+
       $.ajax({
         url: "/discussions/"+discussionId+"/comments",
         type: "POST",
         dataType: "json",
         data: data,
         success: function() {
-          $(event.target).remove();
-          $('.comment-reply-link').show();
+          $(event.target).children("textarea").val("");
+          successCallback(event);
         }
       })
     }
@@ -52,10 +52,13 @@
     // One handler for the static comment form at the top, another delegated
     // handler for the ones that get generated
     $('.new-comment-form').on("submit", function(event) {
-      commentFormHandler(event);
+      commentFormHandler(event, function(e) {});
     });
     $('.comment-list').on("submit", ".new-comment-form", function(event) {
-      commentFormHandler(event);
+      commentFormHandler(event, function(e) {
+        $(e.target).remove();
+        $('.comment-reply-link').show();
+      });
     });
   }
 
