@@ -4,10 +4,24 @@ class Discussion < ActiveRecord::Base
   validates :article, presence: true
 
   belongs_to :article, inverse_of: :discussions
-  has_many :comments
+  belongs_to(
+    :source_discussion,
+    class_name: "Discussion",
+    primary_key: :id,
+    foreign_key: :branched_from_discussion_id,
+    inverse_of: :branches
+  )
+  has_many :comments, dependent: :destroy
+  has_many(
+    :branches,
+    class_name: "Discussion",
+    primary_key: :id,
+    foreign_key: :branched_from_discussion_id,
+    dependent: :nullify
+  )
 
-  def branches
-    Discussion.where(branched_from_discussion_id: id, visible: true)
+  def visible_branches
+    branches.where(visible: true)
   end
 
   # Banish and promote both remove a comment and all of its children into

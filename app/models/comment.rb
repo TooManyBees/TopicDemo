@@ -37,16 +37,23 @@ class Comment < ActiveRecord::Base
     content[0...100] + "..."
   end
 
+  # Returns true if the average of child_comments rating poorly
   def exceeds_negative_threshold?
-    # Returns false if the average of child_comments rating poorly
-    # Has to have at least 5 child comments before it's worth considering
     children = discussion.find_children_of(self)
-    return false unless children.size > 5
+    unless children.size > 5
+      puts "Comment #{id} doesn't have enough children to consider pruning"
+      return false
+    end
 
     total_value = children.reduce(0) { |rating, comment| rating += comment.rating }
     average_value = total_value / children.size
 
     average_value < (-1 * discussion.article.comment_threshold)
+  end
+
+  # Travels upwards from comment to find the "highest level" poorly rated comment
+  def find_source_of_negativity
+    parent_comment.rating < 0 ? parent_comment.find_source_of_negativity : self
   end
 
   def form_new_discussion(opt={})

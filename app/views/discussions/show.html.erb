@@ -1,10 +1,18 @@
 <h1 data-id="<%= @discussion.id %>"><%= @discussion.summary %></h1>
 <h2>Pertaining to the article <%= link_to @discussion.article.title, @discussion.article %></h2>
 
+<ul>
+  <strong>Branched discussions:</strong>
+  <% @discussion.branches.each do |branch| %>
+    <% next unless branch.visible %>
+    <li><%= link_to branch.summary, branch %></li>
+  <% end %>
+</ul>
+
 <%= render "comments/new_comment_form", discussion: @discussion %>
 
 <ol class="comment-list">
-<% @comments.each do |comment| %>
+<% @discussion.comments.each do |comment| %>
   <%= render "comments/comment", comment: comment %>
 <% end %>
 </ol>
