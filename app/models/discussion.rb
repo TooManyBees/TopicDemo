@@ -28,12 +28,11 @@ class Discussion < ActiveRecord::Base
   # a parallel discussion. Promote advertises it at the top of the discussion
   # page; banish just does it invisibly.
   def banish(comment)
-    d = new_discussion_from(comment)
-    d.update_attribute(:visible, false)
+    comment.form_new_discussion(hide: true)
   end
 
   def promote(comment)
-    new_discussion_from(comment)
+    comment.form_new_discussion
   end
 
   # The only reason this method belongs to discussion instead of comment
@@ -54,15 +53,6 @@ class Discussion < ActiveRecord::Base
   end
 
   private
-  def new_discussion_from(comment)
-    new_discussion = Discussion.create(
-      article: self.article,
-      summary: comment.summary_snippet
-      )
-    children = find_children_of(comment)
-    children.each { |el| el.update_attribute(:discussion, new_discussion) }
-    new_discussion
-  end
 
   def comments_by_parent
     hashed = Hash.new { |h, k| h[k] = [] }
