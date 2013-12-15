@@ -16,7 +16,7 @@
       var data = $(event.target).serializeJSON();
 
       $.ajax({
-        url: "/discussions/"+discussionId+"/comments",
+        url: "/api/discussions/"+discussionId+"/comments",
         type: "POST",
         dataType: "json",
         data: data,
@@ -62,7 +62,7 @@
       console.log(commentId + " -> " + commentRating);
 
       $.ajax({
-        url: "/discussions/"+discussionId+"/comments/"+commentId,
+        url: "/api/discussions/"+discussionId+"/comments/"+commentId,
         type: "PUT",
         dataType: "json",
         data: {id: commentId, rating: commentRating },

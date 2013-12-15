@@ -73,6 +73,11 @@ class Comment < ActiveRecord::Base
     children.each { |c| c.update_attribute(:discussion_id, new_discussion.id) }
   end
 
+  def as_json(options={})
+    options = options.merge({except: [:created_at, :updated_at], methods: :post_time_in_words})
+    super(options)
+  end
+
   private
   # These validations/callbacks only get performed when a comment is
   # being added for the first time (there's an unless persisted? above)
