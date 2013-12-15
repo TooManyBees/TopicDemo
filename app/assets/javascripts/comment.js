@@ -34,6 +34,11 @@
       $('.comment-list').append(newHtml);
     }
 
+    var modifyRating = function($rating, modifier) {
+      var currentRating = parseInt($rating.html());
+      $rating.html(currentRating + parseInt(modifier));
+    }
+
     // Requests for posting a comment or replying to comments
     $('.comment-list').on("click", ".comment-reply-link", function(event) {
       event.preventDefault();
@@ -52,13 +57,15 @@
       event.preventDefault();
       var commentId = $(event.target).data("id");
       var commentRating = $(event.target).data("rating");
+      var $ratingSpan = $(event.target).siblings("span");
+      modifyRating($ratingSpan, commentRating);
       console.log(commentId + " -> " + commentRating);
 
       $.ajax({
         url: "/discussions/"+discussionId+"/comments/"+commentId,
         type: "PUT",
         dataType: "json",
-        data: {id: commentId, rating: commentRating }
+        data: {id: commentId, rating: commentRating },
       })
     })
 
