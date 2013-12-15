@@ -57,6 +57,7 @@ class Comment < ActiveRecord::Base
 
   # Travels upwards from comment to find the "highest level" poorly rated comment
   def find_source_of_negativity
+    return self if parent_comment.nil?
     parent_comment.rating < 0 ? parent_comment.find_source_of_negativity : self
   end
 

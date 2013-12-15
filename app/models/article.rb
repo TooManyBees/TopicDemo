@@ -7,7 +7,7 @@ class Article < ActiveRecord::Base
 
   def seed_with_terribleness
     d = discussions.first
-    positive = d.comments.create(content: "I like this author. He's got moxie.")
+    positive = d.comments.create(content: "I like this author. He's got moxie.", rating: 10)
     negative = d.comments.create(content: "You suck", parent_id: positive.id, rating: -5)
     d.comments.create(content: "Check out my website, I made $5000 in just 3 hours a day!", parent_id: positive.id, rating: -5)
     d.comments.create(content: "no u", parent_id: negative.id, rating: -5)

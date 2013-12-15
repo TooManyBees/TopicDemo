@@ -14,6 +14,6 @@ class ArticlesController < ApplicationController
     p "Seeding new article"
     a = Article.create(title: "A new article #{Time.now.strftime("%r")}")
     a.seed_with_terribleness
-    head :ok
+    redirect_to a
   end
 end
