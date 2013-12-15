@@ -11,7 +11,7 @@ class Discussion < ActiveRecord::Base
     foreign_key: :branched_from_discussion_id,
     inverse_of: :branches
   )
-  has_many :comments, dependent: :destroy
+  has_many :comments, dependent: :destroy, order: :created_at
   has_many(
     :branches,
     class_name: "Discussion",
@@ -66,7 +66,7 @@ class Discussion < ActiveRecord::Base
     hashed = Hash.new { |h, k| h[k] = [] }
 
     # TODO: may need to .to_a this to avoid needless db hits
-    comments.each do |comment|
+    comments.reload.each do |comment|
       hashed[comment.parent_id] << comment
     end
 

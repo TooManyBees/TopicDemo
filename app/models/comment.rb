@@ -40,13 +40,17 @@ class Comment < ActiveRecord::Base
   # Returns true if the average of child_comments rating poorly
   def exceeds_negative_threshold?
     children = discussion.find_children_of(self)
-    unless children.size > 5
-      puts "Comment #{id} doesn't have enough children to consider pruning"
+    unless children.size >= 5
+      puts "exceeds_negative_threshold?: Comment #{id} doesn't have enough children to consider pruning"
       return false
+    else
+      puts "exceeds_negative_threshold?: Comment #{id} has enough children. Considering pruning..."
     end
 
     total_value = children.reduce(0) { |rating, comment| rating += comment.rating }
-    average_value = total_value / children.size
+    average_value = total_value.fdiv children.size
+
+    puts "exceeds_negative_threshold?: Comment #{id} has thread value of #{average_value}"
 
     average_value < (-1 * discussion.article.comment_threshold)
   end
