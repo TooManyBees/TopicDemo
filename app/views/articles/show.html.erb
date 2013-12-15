@@ -13,3 +13,9 @@
 </ul>
 
 <%#= render "discussions/new_discussion_form", article_id: @article.id %>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    window.socket.setup();
+  })
+</script>

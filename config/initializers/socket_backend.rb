@@ -1,9 +1,11 @@
 class TopicDemo::SocketBackend
   KEEPALIVE_TIME = 15
 
-  @clients_by_discussion = Hash.new { |h, d| h[d] = [] }
-  def self.clients_by_discussion
-    @clients_by_discussion
+  @clients = {}
+  @clients[:articles] = Hash.new { |h, d| h[d] = [] }
+  @clients[:discussions] = Hash.new { |h, d| h[d] = [] }
+  def self.clients
+    @clients
   end
 
   @clients = []
@@ -17,14 +19,15 @@ class TopicDemo::SocketBackend
 
   def call(env)
     if Faye::WebSocket.websocket?(env)
-      # env["PATH_INFO"].match(/discussions\/(?<id>\d+)/) do |path|
-        # discussion_id = path[:id]
+      env["PATH_INFO"].match(/(?<controller>\w+)\/(?<id>\d+)/) do |path|
+        controller = path[:controller].to_sym
+        id = path[:id]
         ws = Faye::WebSocket.new(env, nil, {ping: KEEPALIVE_TIME})
 
         ws.on :open do |event|
           p [:open, ws.object_id]
           self.class.clients << ws
-          # self.class.clients_by_discussion[discussion_id] << ws
+          self.class.clients[controller][id] << ws
         end
 
         ws.on :message do |event|
@@ -38,7 +41,7 @@ class TopicDemo::SocketBackend
         end
 
         ws.rack_response
-      # end
+      end
     else
       @app.call(env)
     end

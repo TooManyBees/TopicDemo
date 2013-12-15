@@ -22,5 +22,8 @@
 </ol>
 
 <script type="text/javascript">
-  $(document).ready(window.discussion.setup)
+  $(document).ready(function() {
+    window.discussion.setup();
+    window.socket.setup();
+  })
 </script>
