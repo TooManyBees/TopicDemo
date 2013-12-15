@@ -39,7 +39,10 @@ class Comment < ActiveRecord::Base
 
   def exceeds_negative_threshold?
     # Returns false if the average of child_comments rating poorly
+    # Has to have at least 5 child comments before it's worth considering
     children = discussion.find_children_of(self)
+    return false unless children.size > 5
+
     total_value = children.reduce(0) { |rating, comment| rating += comment.rating }
     average_value = total_value / children.size
 
