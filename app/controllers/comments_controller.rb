@@ -11,7 +11,7 @@ class CommentsController < ApplicationController
     comment = discussion.comments.build(new_comment_params)
     comment.save
     if request.xhr?
-      render json: nil, status: :created
+      render json: comment.as_json(except: [:created_at, :updated_at], methods: :post_time_in_words), status: :created
     else
       redirect_to discussion
     end

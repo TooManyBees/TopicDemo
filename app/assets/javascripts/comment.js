@@ -2,7 +2,6 @@
 
   var discussion = root.discussion = (root.discussion || {});
 
-  // $(document).ready(function() {
   discussion.setup = function() {
 
     console.log("Discussion js setup");
@@ -11,6 +10,29 @@
     var commentTemplate = JST['views/comment'];
 
     var discussionId = $('h1').data('id');
+
+    var commentFormHandler = function(event, successCallback) {
+      event.preventDefault();
+      var data = $(event.target).serializeJSON();
+
+      $.ajax({
+        url: "/discussions/"+discussionId+"/comments",
+        type: "POST",
+        dataType: "json",
+        data: data,
+        success: function(data) {
+          // console.log(data);
+          $(event.target).children("textarea").val("");
+          successCallback(event);
+          appendNewComment(data);
+        }
+      })
+    }
+
+    var appendNewComment = function(data) {
+      newHtml = commentTemplate(data);
+      $('.comment-list').append(newHtml);
+    }
 
     // Requests for posting a comment or replying to comments
     $('.comment-list').on("click", ".comment-reply-link", function(event) {
@@ -32,22 +54,6 @@
       var commentScore = $(event.target).data("score");
       console.log(commentId + " -> " + commentScore);
     })
-
-    var commentFormHandler = function(event, successCallback) {
-      event.preventDefault();
-      var data = $(event.target).serializeJSON();
-
-      $.ajax({
-        url: "/discussions/"+discussionId+"/comments",
-        type: "POST",
-        dataType: "json",
-        data: data,
-        success: function() {
-          $(event.target).children("textarea").val("");
-          successCallback(event);
-        }
-      })
-    }
 
     // One handler for the static comment form at the top, another delegated
     // handler for the ones that get generated

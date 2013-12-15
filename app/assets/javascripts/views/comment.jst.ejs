@@ -1,16 +1,16 @@
-<li class="comment" data-id="<%= commentId %>">
-  <a id="comment_<%= commentId %>">
-    Posted <strong><%= post_time %></strong>
+<li class="comment" data-id="<%= id %>">
+  <a id="comment_<%= id %>">
+    Posted <strong><%= post_time_in_words %></strong>
   </a>
 
   <span class="voting">
     <a href="#"
       class="comment-vote-link"
-      data-id="<%= commentId %>"
+      data-id="<%= id %>"
       data-score="1">Vote Up</a>
     <a href="#"
       class="comment-vote-link"
-      data-id="<%= commentId %>"
+      data-id="<%= id %>"
       data-score="-1">Vote Down</a>
   </span>
 
