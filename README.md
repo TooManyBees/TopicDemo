@@ -18,7 +18,11 @@ Methods of note:
 
 `Comment#form_new_discussion(options)` forms a new discussion. The discussion is marked as having been branched off of the comment's original discussion, and the comment and all its descendants are moved into it. If `options` contains `:hide => true`, then the new discussion will be greyed out wherever it's linked.
 
-Each time a comment is updated to change its rating, `exceeds_negative_threshold?` is called to determine if it should be pruned off. The "threshold" value is set on a per-article basis (for example, if an article is really polarizing an author might want to give its discussions a little more flexibility). If that check returns true, `find_source_of_negativity` attempts to find the root of the negative subthread. Then, that root receives `form_new_discussion(hide: true)` to branch them all into a parallel discussion.
+Each time a comment is updated to change its rating, if its rating is below 0 the controller starts to check of the presence of a negative thread. First, it calls `find_source_of_negativity` to find the root of the possible thread. Then given that root, it calls `exceeds_negative_threshold?` to see if the subthread is bad enough to branch off. If so, the root receives `form_new_discussion(hide: true)` which moves it and its descendents away from the current discussion.
+
+## Testing
+
+There's a button on the root page called `Generate demo article`. It will seed a new article with a bunch of off-topic comments. Rating any of them down will trip the detection method and push them into a parallel discussion.
 
 ## Things that could be nice to do
 
