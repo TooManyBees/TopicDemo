@@ -1,5 +1,5 @@
 class Article < ActiveRecord::Base
-  has_many :discussions
+  has_many :discussions, order: "discussions.visible DESC"
 
   validates :title, presence: true
 

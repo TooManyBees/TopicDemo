@@ -36,6 +36,8 @@ class Discussion < ActiveRecord::Base
     new_discussion_from(comment)
   end
 
+  # The only reason this method belongs to discussion instead of comment
+  # is so that discussion can grab all its comments in a single db action
   def find_children_of(comment)
     children = []
     all_comments = comments_by_parent

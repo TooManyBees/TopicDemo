@@ -60,11 +60,13 @@ class Comment < ActiveRecord::Base
     parent_comment.rating < 0 ? parent_comment.find_source_of_negativity : self
   end
 
+  # Passing hide: true means that it was branched under... unfavorable circumstances
+  # The new discussion will be greyed out wherever it's linked
   def form_new_discussion(opt={})
     visible = !opt.fetch(:hide, false)
     article = discussion.article
     new_discussion = article.discussions.create(
-      summary: summary_snippet, visible: visible
+      summary: summary_snippet, visible: visible, branched_from_discussion_id: discussion.id
       )
     children = discussion.find_children_of(self)
     children.each { |c| c.update_attribute(:discussion_id, new_discussion.id) }

@@ -1,13 +1,17 @@
 <h1 data-id="<%= @discussion.id %>"><%= @discussion.summary %></h1>
-<h2>Pertaining to the article <%= link_to @discussion.article.title, @discussion.article %></h2>
+<h2>A discussion on <%= link_to @discussion.article.title, @discussion.article %></h2>
 
-<ul>
-  <strong>Branched discussions:</strong>
-  <% @discussion.branches.each do |branch| %>
-    <% next unless branch.visible %>
-    <li><%= link_to branch.summary, branch %></li>
-  <% end %>
-</ul>
+<% if @discussion.source_discussion %>
+  <strong>Branched from <%= link_to @discussion.source_discussion.summary, @discussion.source_discussion %></strong>
+<% end %>
+<% if @discussion.visible %>
+  <ul>
+    <strong>Branched discussions:</strong>
+    <% @discussion.branches.each do |branch| %>
+      <li class="<%= "negative" unless branch.visible %>"><%= link_to branch.summary, branch %></li>
+    <% end %>
+  </ul>
+<% end %>
 
 <%= render "comments/new_comment_form", discussion: @discussion %>
 

@@ -8,7 +8,7 @@
 
 <ul>
   <% @article.discussions.each do |discussion| %>
-  <li><%= link_to discussion.summary, discussion %></li>
+  <li class="<%= "negative" unless discussion.visible %>"><%= link_to discussion.summary, discussion %></li>
   <% end %>
 </ul>
 
