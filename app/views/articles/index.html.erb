@@ -5,3 +5,5 @@
   <li><%= link_to article.title, article %></li>
 <% end %>
 </ol>
+
+<%= button_to "Generate demo article", seed_articles_url, method: "POST", remote: true %>

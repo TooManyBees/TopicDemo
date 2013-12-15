@@ -25,11 +25,15 @@ class CommentsController < ApplicationController
     comment.rating += params[:rating].to_i
     comment.save
 
-    # Only check for splitting negative comments if the discussion is
-    # visible (i.e. if it was originally banished for being negative,
-    # don't bother checking further)
-    if comment.discussion.visible && comment.exceeds_negative_threshold?
-      comment.form_new_discussion(hide: true)
+    if comment.rating < 0
+      # Step 1: look upward for the earliest negative comment (might be self)
+      root_comment = comment.find_source_of_negativity
+      p "PRUNING: #{root_comment.summary_snippet} is the font of madness"
+
+      # Step 2: check all its children for overal negativity
+      if root_comment.discussion.visible && root_comment.exceeds_negative_threshold?
+        root_comment.form_new_discussion(hide: true)
+      end
     end
 
     if request.xhr?

@@ -18,6 +18,10 @@ h1, h2, h3, div, section, p, ul, ol, li {
   list-style: none;
 }
 
+ol, ul {
+  margin: 10px 0;
+}
+
 a, a:visited {
   color: #990000;
 }
