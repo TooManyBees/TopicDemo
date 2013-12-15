@@ -16,7 +16,9 @@ Methods of note:
 
 `Comment#find_source_of_negativity` traverses up the comment tree to return the highest comment in an unbroken string of negatively rated comments. (This could just return self.)
 
-Each time a comment is updated to change its rating, `exceeds_negative_threshold?` is called to determine if it should be pruned off. The "threshold" value is set on a per-article basis (for example, if an article is really polarizing an author might want to its discussions a little more flexibility). If that check returns true, `find_source_of_negativity` attempts to find the root of the negative subthread. Then, that root receives `form_new_discussion(hide: true)` which generates a new discussion; the option `hide: true` marks it as not visible, so it gets grayed out wherever it's linked.
+`Comment#form_new_discussion(options)` forms a new discussion. The discussion is marked as having been branched off of the comment's original discussion, and the comment and all its descendants are moved into it. If `options` contains `:hide => true`, then the new discussion will be greyed out wherever it's linked.
+
+Each time a comment is updated to change its rating, `exceeds_negative_threshold?` is called to determine if it should be pruned off. The "threshold" value is set on a per-article basis (for example, if an article is really polarizing an author might want to give its discussions a little more flexibility). If that check returns true, `find_source_of_negativity` attempts to find the root of the negative subthread. Then, that root receives `form_new_discussion(hide: true)` to branch them all into a parallel discussion.
 
 ## Things that could be nice to do
 
