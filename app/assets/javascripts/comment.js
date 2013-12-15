@@ -51,8 +51,15 @@
     $('.comment-list').on("click", ".comment-vote-link", function(event) {
       event.preventDefault();
       var commentId = $(event.target).data("id");
-      var commentScore = $(event.target).data("score");
-      console.log(commentId + " -> " + commentScore);
+      var commentRating = $(event.target).data("rating");
+      console.log(commentId + " -> " + commentRating);
+
+      $.ajax({
+        url: "/discussions/"+discussionId+"/comments/"+commentId,
+        type: "PUT",
+        dataType: "json",
+        data: {id: commentId, rating: commentRating }
+      })
     })
 
     // One handler for the static comment form at the top, another delegated
