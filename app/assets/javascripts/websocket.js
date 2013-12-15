@@ -1,4 +1,4 @@
-$(document).ready(function{} {
+$(document).ready(function() {
   var host = window.location.host;
   var path = window.location.pathname;
   var ws = WebSocket.new("ws://"+host+pathname);
