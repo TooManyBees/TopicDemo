@@ -12,4 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require serializeJSON
+//= require comment
+//= require websocket
 //= require_tree .
