@@ -9,13 +9,14 @@ It's a basic Article -> Discussion -> Comment system. Each article begins with a
 ## Implementation
 
 Methods of note:
+
 `Discussion#find_children_of(comment)` retrieves all comments of discussion and returns only those descended from `comment`.
 
 `Comment#exceeds_negative_threshold?` finds the average rating of itself and all its descendant comments, and returns whether or not it's worse than a predetermined value. Always returns false if there are fewer than 5 child comments.
 
 `Comment#find_source_of_negativity` traverses up the comment tree to return the highest comment in an unbroken string of negatively rated comments. (This could just return self.)
 
-Each time a comment is updated to change its rating, `exceeds_negative_threshold?` is called to determine if it should be pruned off. If that returns true, `find_source_of_negativity` attempts to find the root of the negative subthread. Then, that root receives `form_new_discussion(hide: true)` which generates a new discussion; the option `hide: true` marks it as not visible, so it gets grayed out wherever it's linked.
+Each time a comment is updated to change its rating, `exceeds_negative_threshold?` is called to determine if it should be pruned off. The "threshold" value is set on a per-article basis (for example, if an article is really polarizing an author might want to its discussions a little more flexibility). If that check returns true, `find_source_of_negativity` attempts to find the root of the negative subthread. Then, that root receives `form_new_discussion(hide: true)` which generates a new discussion; the option `hide: true` marks it as not visible, so it gets grayed out wherever it's linked.
 
 ## Things that could be nice to do
 
