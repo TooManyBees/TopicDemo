@@ -141,6 +141,7 @@ DEPENDENCIES
   faye-websocket
   jbuilder (~> 1.2)
   jquery-rails
+  json
   pg
   pry-rails
   puma

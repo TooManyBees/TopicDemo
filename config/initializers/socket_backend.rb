@@ -8,11 +8,6 @@ class TopicDemo::SocketBackend
     @clients
   end
 
-  @clients = []
-  def self.clients
-    @clients
-  end
-
   def initialize(app)
     @app = app
   end
@@ -26,7 +21,9 @@ class TopicDemo::SocketBackend
 
         ws.on :open do |event|
           p [:open, ws.object_id]
-          self.class.clients << ws
+          # Still need to find a good cleanup method to delete
+          # closed websockets from the hashes
+          self.class.clients[controller][id].compact!
           self.class.clients[controller][id] << ws
         end
 
@@ -36,7 +33,6 @@ class TopicDemo::SocketBackend
 
         ws.on :close do |event|
           p [:close, ws.object_id]
-          self.class.clients.delete(ws)
           ws = nil
         end
 

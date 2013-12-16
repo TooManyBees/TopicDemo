@@ -11,9 +11,9 @@
     var ws = new WebSocket("ws://"+host+path);
 
     ws.onmessage = function(message) {
-      // eval the js that comes in. huge security risk! :(
-      // should mostly consist of adding/removing comments
-      eval(message);
+      // console.log(message.data);
+      var response = $.parseJSON(message.data);
+      window.discussion[response.functionName](response.params);
     };
   }
 })(this)

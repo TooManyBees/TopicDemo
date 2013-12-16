@@ -6,6 +6,8 @@ A discussion system that automatically tries to detect off-topic comment threads
 
 It's a basic Article -> Discussion -> Comment system. Each article begins with a single default discussion, which comments can be posted to. They can also be voted positive or negative, and if a string of comments get enough negative votes, then the entire tree of comments will be moved to a new discussion.
 
+Requests to the server are made via Ajax, while updates are received through a web socket (using [Faye Websockets](https://github.com/faye/faye-websocket-ruby)).
+
 ## Implementation
 
 Methods of note:

@@ -6,8 +6,8 @@
 
     console.log("Discussion js setup");
 
-    var commentFormTemplate = JST['views/new_comment_form'];
-    var commentTemplate = JST['views/comment'];
+    var commentFormTemplate = root.commentFormTemplate = JST['views/new_comment_form'];
+    var commentTemplate = root.commentTemplate = JST['views/comment'];
 
     var discussionId = $('h1').data('id');
 
@@ -21,22 +21,10 @@
         dataType: "json",
         data: data,
         success: function(data) {
-          // console.log(data);
           $(event.target).children("textarea").val("");
           successCallback(event);
-          appendNewComment(data);
         }
       })
-    }
-
-    var appendNewComment = function(data) {
-      newHtml = commentTemplate(data);
-      $('.comment-list').append(newHtml);
-    }
-
-    var modifyRating = function($rating, modifier) {
-      var currentRating = parseInt($rating.html());
-      $rating.html(currentRating + parseInt(modifier));
     }
 
     // Requests for posting a comment or replying to comments
@@ -57,9 +45,6 @@
       event.preventDefault();
       var commentId = $(event.target).data("id");
       var commentRating = $(event.target).data("rating");
-      var $ratingSpan = $(event.target).siblings("span");
-      modifyRating($ratingSpan, commentRating);
-      console.log(commentId + " -> " + commentRating);
 
       $.ajax({
         url: "/api/discussions/"+discussionId+"/comments/"+commentId,
