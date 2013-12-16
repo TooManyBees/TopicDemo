@@ -12,7 +12,6 @@
 
     ws.onmessage = function(message) {
       var response = $.parseJSON(message.data);
-      console.log(response);
       window.discussion[response.functionName](response.params);
     };
   }

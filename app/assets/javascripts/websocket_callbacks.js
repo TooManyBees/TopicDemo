@@ -23,9 +23,7 @@
   }
 
   discussion.addDiscussion = function(params) {
-    console.log("adding a discussion to the list!")
     var html = root.discussionListTemplate(params);
-    console.log(html);
     $('#discussion-list').append(html);
   }
 
