@@ -24,6 +24,8 @@ Each time a comment is updated to change its rating, if its rating is below 0 th
 
 ## Testing
 
+Live demo is at https://intense-tor-5737.herokuapp.com/
+
 There's a button on the root page called `Generate demo article`. It will seed a new article with a bunch of off-topic comments. A single down-vote on any of the negative rated comments will be enough to trip the detection method and push them into a parallel discussion.
 
 ## Things that could be nice to do
