@@ -24,10 +24,10 @@ Each time a comment is updated to change its rating, if its rating is below 0 th
 
 ## Testing
 
-There's a button on the root page called `Generate demo article`. It will seed a new article with a bunch of off-topic comments. Rating any of them down will trip the detection method and push them into a parallel discussion.
+There's a button on the root page called `Generate demo article`. It will seed a new article with a bunch of off-topic comments. A single down-vote on any of the negative rated comments will be enough to trip the detection method and push them into a parallel discussion.
 
 ## Things that could be nice to do
 
 There's a lot of db crawling to check the rating of child and parent comments. A little Redis or Memcached here and there would be the next thing to add, if the system is to scale.
 
-The Discussion model has methods for banishing or promoting comments and their descendants, so an admin option to manually choose which threads to branch off would be useful.
+The Discussion model has methods for banishing or promoting comments and their descendants (promotion being the same as "banish" but without graying out its link), so an admin option to manually choose which threads to branch off would be useful.
