@@ -12,7 +12,11 @@ class ArticlesController < ApplicationController
   # comments ready for receiving justice
   def seed
     p "Seeding new article"
-    a = Article.create(title: "A new article #{Time.now.strftime("%r")}")
+    text = File.read("db/seed_text.txt")
+    a = Article.create(
+      title: "A new article #{Time.now.strftime("%r")}",
+      text: text
+      )
     a.seed_with_terribleness
     redirect_to a
   end

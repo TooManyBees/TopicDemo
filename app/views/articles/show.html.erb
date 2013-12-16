@@ -1,7 +1,7 @@
 <h1><%= @article.title %></h1>
 
 <div>
-  <%= @article.text %>
+  <%= @article.text.html_safe %>
 </div>
 
 <h2>Ongoing Discussions</h2>
