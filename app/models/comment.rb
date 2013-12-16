@@ -71,6 +71,8 @@ class Comment < ActiveRecord::Base
       )
     children = discussion.find_children_of(self)
     children.each { |c| c.update_attribute(:discussion_id, new_discussion.id) }
+
+    new_discussion
   end
 
   def as_json(options={})

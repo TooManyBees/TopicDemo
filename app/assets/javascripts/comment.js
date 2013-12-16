@@ -2,12 +2,19 @@
 
   var discussion = root.discussion = (root.discussion || {});
 
+  discussion.loadTemplates = function() {
+    var commentFormTemplate = root.commentFormTemplate = JST['views/new_comment_form'];
+    var commentTemplate = root.commentTemplate = JST['views/comment'];
+    var discussionListTemplate = root.discussionListTemplate = JST['views/discussion_li']
+  }
+
   discussion.setup = function() {
 
     console.log("Discussion js setup");
 
-    var commentFormTemplate = root.commentFormTemplate = JST['views/new_comment_form'];
-    var commentTemplate = root.commentTemplate = JST['views/comment'];
+    // var commentFormTemplate = root.commentFormTemplate = JST['views/new_comment_form'];
+    // var commentTemplate = root.commentTemplate = JST['views/comment'];
+    // var discussionListTemplate = root.discussionListTemplate = JST['views/discussion_li']
 
     var discussionId = $('h1').data('id');
 

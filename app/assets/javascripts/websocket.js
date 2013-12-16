@@ -11,8 +11,8 @@
     var ws = new WebSocket("ws://"+host+path);
 
     ws.onmessage = function(message) {
-      // console.log(message.data);
       var response = $.parseJSON(message.data);
+      console.log(response);
       window.discussion[response.functionName](response.params);
     };
   }

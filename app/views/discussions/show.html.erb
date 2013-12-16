@@ -5,7 +5,7 @@
   <strong>Branched from <%= link_to @discussion.source_discussion.summary, @discussion.source_discussion %></strong>
 <% end %>
 <% if @discussion.visible %>
-  <ul>
+  <ul id="discussion-list">
     <strong>Branched discussions:</strong>
     <% @discussion.branches.each do |branch| %>
       <li class="<%= "negative" unless branch.visible %>"><%= link_to branch.summary, branch %></li>
@@ -24,6 +24,7 @@
 <script type="text/javascript">
   $(document).ready(function() {
     window.discussion.setup();
+    window.discussion.loadTemplates();
     window.socket.setup();
   })
 </script>

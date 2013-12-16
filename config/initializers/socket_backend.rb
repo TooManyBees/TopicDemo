@@ -16,7 +16,7 @@ class TopicDemo::SocketBackend
     if Faye::WebSocket.websocket?(env)
       env["PATH_INFO"].match(/(?<controller>\w+)\/(?<id>\d+)/) do |path|
         controller = path[:controller].to_sym
-        id = path[:id]
+        id = path[:id].to_i
         ws = Faye::WebSocket.new(env, nil, {ping: KEEPALIVE_TIME})
 
         ws.on :open do |event|
