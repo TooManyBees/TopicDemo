@@ -16,6 +16,10 @@
   discussion.newDiscussionFromComments = function(params) {
     discussion.addDiscussion(params);
     // do more to remove items
+    var $commentList = $(".comment-list");
+    $.each(params.ids, function(i,id) {
+      $commentList.children("li[data-id="+id+"]").remove();
+    })
   }
 
   discussion.addDiscussion = function(params) {
