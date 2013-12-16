@@ -13,7 +13,7 @@ class Api::CommentsController < ApplicationController
     # This is where we want to find all the websockets for this discussion
     # and send them some javascript
     websockets = clients(controller: :discussions, id: params[:discussion_id].to_i)
-    # p "NUMBER OF CLIENTS TO UPDATE: #{websockets.size}"
+
     json = {
       functionName: "appendNewComment",
       params: comment.as_json
@@ -46,7 +46,7 @@ class Api::CommentsController < ApplicationController
     if comment.rating < 0 && comment.discussion.visible
       # Step 1: look upward for the earliest negative comment (might be self)
       root_comment = comment.find_source_of_negativity
-      p "PRUNING: #{root_comment.summary_snippet} is the font of madness"
+      p "Topic #{root_comment.summary_snippet} has been determined to be the font of madness"
 
       # Step 2: check all its children for overal negativity
       if root_comment.exceeds_negative_threshold?
@@ -56,7 +56,7 @@ class Api::CommentsController < ApplicationController
 
         # Notify subscribers of article that a new discussion has formed
         article_clients = clients(controller: :articles, id: comment.discussion.article_id)
-        puts "NUMBER OF ARTICLE CLIENTS TO UPDATE: #{article_clients.size}"
+
         article_json = {
           functionName: "addDiscussion",
           params: new_discussion.as_json
@@ -65,7 +65,7 @@ class Api::CommentsController < ApplicationController
 
         # Notify subscribers of old discussion to remove the offending comments
         discussion_clients = clients(controller: :discussions, id: old_discussion_id)
-        puts "NUMBER OF DISCUSSION CLIENTS TO UPDATE: #{discussion_clients.size}"
+
         discussion_json = {
           functionName: "newDiscussionFromComments",
           params: new_discussion.as_json.merge(ids: new_discussion.comment_ids)
