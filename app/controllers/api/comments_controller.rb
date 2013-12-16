@@ -24,7 +24,7 @@ class Api::CommentsController < ApplicationController
     render json: nil, status: :created
   end
 
-  # Used only for voting
+  # Used only for voting.
   def update
     comment = Comment.find(params[:id])
 
@@ -43,16 +43,15 @@ class Api::CommentsController < ApplicationController
       }.to_json
     websockets.each { |ws| ws.send(json) }
 
-    if comment.rating < 0
+    if comment.rating < 0 && comment.discussion.visible
       # Step 1: look upward for the earliest negative comment (might be self)
       root_comment = comment.find_source_of_negativity
       p "PRUNING: #{root_comment.summary_snippet} is the font of madness"
 
       # Step 2: check all its children for overal negativity
-      if root_comment.discussion.visible && root_comment.exceeds_negative_threshold?
+      if root_comment.exceeds_negative_threshold?
 
         old_discussion_id = comment.discussion_id
-
         new_discussion = root_comment.form_new_discussion(hide: true)
 
         # Notify subscribers of article that a new discussion has formed
